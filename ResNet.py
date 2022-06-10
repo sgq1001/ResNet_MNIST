@@ -8,6 +8,9 @@ import torchvision
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
 
+import matplotlib.pyplot as plt
+
+
 train_dataset = datasets.MNIST(root='data/', train=True,
                                transform=transforms.ToTensor(), download=True)
 test_dataset = datasets.MNIST(root='data/', train=False,
@@ -27,7 +30,13 @@ def evaluate_accuracy(data_iter, model):
             _, predicts = torch.max(outputs.data, 1)
             total += labels.size(0)
             correct += (predicts == labels).cpu().sum()
-    return 100*correct/total
+
+            img = images[0].resize(28, 28)
+            plt.imshow(img)
+            plt.axis('on')
+            plt.title("$The picture in {} batch,predicted label={}$".format(i + 1, predicts[0]))
+            plt.show()
+    return correct/total
 
 
 # model
