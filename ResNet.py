@@ -23,9 +23,9 @@ test_loader = DataLoader(dataset=train_dataset, batch_size=100, shuffle=True)
 def evaluate_accuracy(data_iter, model):
     total = 0
     correct = 0
+    model.eval()
     with torch.no_grad():
         for images, labels in data_iter:
-            model.eval()
             outputs = model(images)
             _, predicts = torch.max(outputs.data, 1)
             total += labels.size(0)
